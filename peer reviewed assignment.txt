@@ -1,0 +1,470 @@
+1. Profile the data by finding the total number of records for each of the tables below:
+SELECT *
+FROM table_name;
+
+	
+i. Attribute table = 10,000
+ii. Business table = 10,000
+iii. Category table = 10,000
+iv. Checkin table = 10,000
+v. elite_years table = 10,000
+vi. friend table = 10,000
+vii. hours table = 10,000
+viii. photo table = 10,000
+ix. review table =  10,000
+x. tip table = 10,000
+xi. user table = 10,000
+
+2. Find the total distinct records by either the foreign key or primary key for each table. If two foreign keys are listed in the table, please specify which foreign key.
+
+SELECT COUNT(DISTINCT id)
+FROM Business; 
+i. Business = 10,000
+
+SELECT COUNT(DISTINCT business_id)
+FROM Hours; 
+ii. Hours = 1,562
+
+SELECT COUNT(DISTINCT business_id)
+FROM Category; 
+iii. Category = 2,643
+
+SELECT COUNT(DISTINCT business_id)
+FROM Attributes; 
+iv. Attribute = 1,115
+
+SELECT COUNT(DISTINCT id)		--primary key
+FROM Review; 
+SELECT COUNT(DISTINCT business_id)	--foreign key
+FROM Review; 
+SELECT COUNT(DISTINCT user_id)	--foreign key
+FROM Review; 
+v. Review = 
+	id = 10,000
+	business_id = 8,093
+	user_id = 9,581
+
+SELECT COUNT(DISTINCT business_id)	
+FROM Checkin; 
+vi. Checkin = 493
+
+SELECT COUNT(DISTINCT id)		--primary key
+FROM Photo; 
+SELECT COUNT(DISTINCT business_id)	--foreign key
+FROM Photo; 
+vii. Photo =
+	id = 10,000
+	business_id = 6,493
+
+SELECT COUNT(DISTINCT business_id)	--foreign key
+FROM Tip; 
+SELECT COUNT(DISTINCT user_id)	--foreign key
+FROM Tip; 
+viii. Tip = 
+	business_id = 3,979
+	user_id = 537
+
+SELECT COUNT(DISTINCT id)		--primary key
+FROM User; 
+ix. User = 10,000
+
+SELECT COUNT(DISTINCT user_id)	--foreign key
+FROM Friend; 
+x. Friend = 11
+
+SELECT COUNT(DISTINCT user_id)	--foreign key
+FROM Elite_years; 
+xi. Elite_years = 2,780
+
+
+3. Are there any columns with null values in the Users table? Indicate "yes," or "no."
+
+	Answer: no
+	
+	
+	SQL code used to arrive at answer:	
+SELECT COUNT(*)
+FROM User
+WHERE id IS NULL OR
+    name IS NULL OR
+    review_count IS NULL OR 
+    yelping_since IS NULL OR 
+    useful IS NULL OR 
+    funny IS NULL OR 
+    cool IS NULL OR 
+    fans IS NULL OR 
+    average_stars IS NULL OR 
+    compliment_hot IS NULL OR 
+    compliment_more IS NULL OR
+    compliment_profile IS NULL OR 
+    compliment_cute IS NULL OR 
+    compliment_list IS NULL OR 
+    compliment_note IS NULL OR 
+    compliment_plain IS NULL OR 
+    compliment_cool IS NULL OR 
+    compliment_funny IS NULL OR
+    compliment_writer IS NULL OR 
+    compliment_photos IS NULL;
+
+4. For each table and column listed below, display the smallest (minimum), largest (maximum), and average (mean) value for the following fields:
+
+	
+	SELECT MIN(Stars), MAX(Stars), AVG(Stars)
+	FROM Review;
+	i. Table: Review, Column: Stars
+	
+		min:1		max:5		avg:3.7082
+		
+	SELECT MIN(Stars), MAX(Stars), AVG(Stars)
+	FROM Business;
+	ii. Table: Business, Column: Stars
+	
+		min:1		max:5		avg:3.6549
+		
+	SELECT MIN(Likes), MAX(Likes), AVG(Likes)
+	FROM Tip;
+	iii. Table: Tip, Column: Likes
+	
+		min:0		max:2		avg:0.0144
+		
+	SELECT MIN(Count), MAX(Count), AVG(Count)
+	FROM Checkin;
+	iv. Table: Checkin, Column: Count
+	
+		min:1		max:53	avg:1.9414
+		
+	SELECT MIN(Review_count), MAX(Review_count), AVG(Review_count)
+	FROM User;
+	v. Table: User, Column: Review_count
+
+		min:0		max:2000	avg:24.2995
+
+5. List the cities with the most reviews in descending order:
+
+	SQL code used to arrive at answer:
+SELECT Review_count, City
+FROM Business
+ORDER BY Review_count DESC;
+	
+	
+	Copy and Paste the Result Below: 
++-----------------+--------------+
+| city            | TotalReviews |
++-----------------+--------------+
+| Las Vegas       |        82854 |
+| Phoenix         |        34503 |
+| Toronto         |        24113 |
+| Scottsdale      |        20614 |
+| Charlotte       |        12523 |
+| Henderson       |        10871 |
+| Tempe           |        10504 |
+| Pittsburgh      |         9798 |
+| Montréal        |         9448 |
+| Chandler        |         8112 |
+| Mesa            |         6875 |
+| Gilbert         |         6380 |
+| Cleveland       |         5593 |
+| Madison         |         5265 |
+| Glendale        |         4406 |
+| Mississauga     |         3814 |
+| Edinburgh       |         2792 |
+| Peoria          |         2624 |
+| North Las Vegas |         2438 |
+| Markham         |         2352 |
+| Champaign       |         2029 |
+| Stuttgart       |         1849 |
+| Surprise        |         1520 |
+| Lakewood        |         1465 |
+| Goodyear        |         1155 |
++-----------------+--------------+
+
+
+
+6. Find the distribution of star ratings to the business in the following cities:
+
+i. Avon
+
+SQL code used to arrive at answer:
+SELECT stars, SUM(review_count) AS Count
+FROM Business
+WHERE city = 'Avon'
+GROUP BY Stars;
+
+Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
++-------+-------+
+| stars | Count |
++-------+-------+
+|   1.5 |    10 |
+|   2.5 |     6 |
+|   3.5 |    88 |
+|   4.0 |    21 |
+|   4.5 |    31 |
+|   5.0 |     3 |
++-------+-------+
+
+ii. Beachwood
+
+SQL code used to arrive at answer:
+SELECT stars, SUM(review_count) AS Count
+FROM Business
+WHERE city = 'Beachwood'
+GROUP BY Stars;
+
+Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
++-------+-------+
+| stars | Count |
++-------+-------+
+|   2.0 |     8 |
+|   2.5 |     3 |
+|   3.0 |    11 |
+|   3.5 |     6 |
+|   4.0 |    69 |
+|   4.5 |    17 |
+|   5.0 |    23 |
++-------+-------+
+
+
+7. Find the top 3 users based on their total number of reviews:
+		
+	SQL code used to arrive at answer:
+SELECT review_count, name
+FROM User
+ORDER BY review_count DESC
+LIMIT 3;
+	
+		
+	Copy and Paste the Result Below:
++--------------+--------+
+| review_count | name   |
++--------------+--------+
+|         2000 | Gerald |
+|         1629 | Sara   |
+|         1339 | Yuri   |
++--------------+--------+
+		
+
+
+8. Does posing more reviews correlate with more fans?
+SELECT review_count, name, fans
+FROM User
+ORDER BY review_count DESC;
+
+	Please explain your findings and interpretation of the results:
+No it does not, as you can see by the chart below - the people with the most reviews 
+do not have the most fans. If we look at how long they have been yelping + the number of reviews, 
+we will see that the number of fans better correlates with the amount of time they have been yelping.
++--------------+-----------+------+
+| review_count | name      | fans |
++--------------+-----------+------+
+|         2000 | Gerald    |  253 |
+|         1629 | Sara      |   50 |
+|         1339 | Yuri      |   76 |
+|         1246 | .Hon      |  101 |
+|         1215 | William   |  126 |
+|         1153 | Harald    |  311 |
+|         1116 | eric      |   16 |
+|         1039 | Roanna    |  104 |
+|          968 | Mimi      |  497 |
+|          930 | Christine |  173 |
+|          904 | Ed        |   38 |
+|          864 | Nicole    |   43 |
+|          862 | Fran      |  124 |
+|          861 | Mark      |  115 |
+|          842 | Christina |   85 |
+|          836 | Dominic   |   37 |
+|          834 | Lissa     |  120 |
+|          813 | Lisa      |  159 |
+|          775 | Alison    |   61 |
+|          754 | Sui       |   78 |
+|          702 | Tim       |   35 |
+|          696 | L         |   10 |
+|          694 | Angela    |  101 |
+|          676 | Crissy    |   25 |
+|          675 | Lyn       |   45 |
++--------------+-----------+------+
+	
+
+	
+9. Are there more reviews with the word "love" or with the word "hate" in them?
+
+	Answer: Love
+
+	
+	SQL code used to arrive at answer:
+SELECT count(id),text
+FROM Review
+WHERE text LIKE '%Love%';
+
+Love = 1780
+
+SELECT count(id),text
+FROM Review
+WHERE text LIKE '%Hate%';
+
+Hate = 232
+	
+	
+10. Find the top 10 users with the most fans:
+
+	SQL code used to arrive at answer:
+SELECT name, fans
+FROM User
+ORDER BY fans DESC
+LIMIT 10;
+	
+	
+	Copy and Paste the Result Below:	
++-----------+------+
+| name      | fans |
++-----------+------+
+| Amy       |  503 |
+| Mimi      |  497 |
+| Harald    |  311 |
+| Gerald    |  253 |
+| Christine |  173 |
+| Lisa      |  159 |
+| Cat       |  133 |
+| William   |  126 |
+| Fran      |  124 |
+| Lissa     |  120 |
++-----------+------+
+
+Part 2: Inferences and Analysis
+
+1. Pick one city and category of your choice and group the businesses in that city or category by their overall star rating. Compare the businesses with 2-3 stars to the businesses with 4-5 stars and answer the following questions. Include your code.
+	
+i. Do the two groups you chose to analyze have a different distribution of hours?
+The 2-3 stars group tend to have longer (8:00-22:00) working hours than the 4-5 stars businesses. 
+
+ii. Do the two groups you chose to analyze have a different number of reviews?
+ Yes but the review count and star ratings don't seem to correlate.         
+         
+iii. Are you able to infer anything from the location data provided between these two groups? Explain.
+No, judging the data off of the zip code could create bias and there is not enough information to 
+back the judgement. 
+
+SQL code used for analysis:
+SELECT B.name, B.review_count, B.city, B.stars, H.Hours, postal_code,C.Category,
+    CASE 
+    WHEN Hours LIKE '%Monday%' THEN 1
+    WHEN Hours LIKE '%Tuesday%' THEN 2
+    WHEN Hours LIKE '%Wednesday%' THEN 3
+    WHEN Hours LIKE '%Thursday%' THEN 4
+    WHEN Hours LIKE '%Friday%' THEN 5 
+    WHEN Hours LIKE '%Saturday%' THEN 6 
+    WHEN Hours LIKE '%Sunday%' THEN 7 
+    END dateOrder,
+    CASE 
+    WHEN B.stars BETWEEN 2 AND 3 THEN '2-3 stars'
+	WHEN B.stars BETWEEN 4 AND 5 THEN '4-5 stars'
+    END starRating
+FROM Business AS B INNER JOIN Hours AS H 
+	ON B.id = H.business_id
+    INNER JOIN Category AS C 
+	ON B.id = C.business_id
+WHERE (B.city = 'Charlotte' 
+	AND 
+	C.Category LIKE '%shopping%')
+    	AND 
+	(B.stars BETWEEN 2 AND 3 OR B.stars BETWEEN 4 AND 5)
+GROUP BY Stars, dateOrder
+ORDER BY dateOrder, starRating ASC;
+
+		
+		
+2. Group business based on the ones that are open and the ones that are closed. What differences can you find between the ones that are still open and the ones that are closed? List at least two differences and the SQL code you used to arrive at your answer.
+		
+i. Difference 1:
+The open businesses have a substantially larger number of total reviews than the closed businesses
+Total Reviews for Open Businesses: 269,300     
+Total Reviews for Closed Businesses: 35,261   
+
+Average # of reviews for open: 32
+Average # of reviews for closed: 23
+         
+ii. Difference 2:
+The number of open business is more than 3x the amount of closed businesses but the
+average star rating is not much of a difference 
+
+Star Average for open: 3.68   
+Star Average for closed: 3.52      
+         
+SQL code used for analysis:
+
+SELECT COUNT(DISTINCT(ID)), is_open, avg(stars) as StarAvg, 
+    sum(review_count) AS totalReviews, avg(review_count) AS ReviewAvg, 
+FROM Business
+GROUP BY is_open;
+
+
+3. For this last part of your analysis, you are going to choose the type of analysis you want to conduct on the Yelp dataset and are going to prepare the data for analysis.
+
+Ideas for analysis include: Parsing out keywords and business attributes for sentiment analysis, clustering businesses to find commonalities or anomalies between them, predicting the overall star rating for a business, predicting the number of fans a user will have, and so on. These are just a few examples to get you started, so feel free to be creative and come up with your own problem you want to solve. Provide answers, in-line, to all of the following:
+	
+i. Indicate the type of analysis you chose to do:
+
+Analyzing business hours, specifically weekend dates, to see which date a business needs to be open to have a higher star rating. 
+         
+ii. Write 1-2 brief paragraphs on the type of data you will need for your analysis and why you chose that data:
+The data I will need is: 
+Business 
+	- name, stars, review_count, hours
+Hours 
+	- Hours
+
+To find out what weekend day a business needs to be open to have a higher star rating, I will collect business data along with that businesses hours data. I will 
+show the average star rating for all businesses open on a particular day (i.e. Friday, Saturday, Sunday). I will be reviewing the same data set to compare the dates
+
+
+
+
+iii. Output of your finished dataset:
+This output shows that businesses open on Fridays tend to have higher star ratings. 
++--------+---------------+----------------+----------------------+-----------+
+| B.name |  avg(B.stars) | B.review_count | H.hours              | dateOrder |
++--------+---------------+----------------+----------------------+-----------+
+| Edulis | 3.73484848485 |             89 | Sunday|12:00-16:00   |         7 |
+| Edulis | 3.77380952381 |             89 | Saturday|18:00-23:00 |         6 |
+| Edulis | 3.82446808511 |             89 | Friday|18:00-23:00   |         5 |
++--------+---------------+----------------+----------------------+-----------+
+         
+         
+iv. Provide the SQL code you used to create your final dataset:
+SELECT B.name, avg(B.stars), B.review_count, H.hours,
+    CASE
+    WHEN Hours LIKE '%Monday%' THEN 1
+    WHEN Hours LIKE '%Tuesday%' THEN 2
+    WHEN Hours LIKE '%Wednesday%' THEN 3
+    WHEN Hours LIKE '%Thursday%' THEN 4
+    WHEN Hours LIKE '%Friday%' THEN 5 
+    WHEN Hours LIKE '%Saturday%' THEN 6 
+    WHEN Hours LIKE '%Sunday%' THEN 7 
+    END dateOrder
+FROM Business AS B INNER JOIN Hours AS H ON B.id = H.business_id
+WHERE is_open = 1 AND dateOrder = 7
+UNION
+SELECT B.name, avg(B.stars), B.review_count, H.hours,
+    CASE
+    WHEN Hours LIKE '%Monday%' THEN 1
+    WHEN Hours LIKE '%Tuesday%' THEN 2
+    WHEN Hours LIKE '%Wednesday%' THEN 3
+    WHEN Hours LIKE '%Thursday%' THEN 4
+    WHEN Hours LIKE '%Friday%' THEN 5 
+    WHEN Hours LIKE '%Saturday%' THEN 6 
+    WHEN Hours LIKE '%Sunday%' THEN 7 
+    END dateOrder
+FROM Business AS B INNER JOIN Hours AS H ON B.id = H.business_id
+WHERE is_open = 1 AND dateOrder = 6
+UNION
+SELECT B.name, avg(B.stars), B.review_count, H.hours,
+    CASE
+    WHEN Hours LIKE '%Monday%' THEN 1
+    WHEN Hours LIKE '%Tuesday%' THEN 2
+    WHEN Hours LIKE '%Wednesday%' THEN 3
+    WHEN Hours LIKE '%Thursday%' THEN 4
+    WHEN Hours LIKE '%Friday%' THEN 5 
+    WHEN Hours LIKE '%Saturday%' THEN 6 
+    WHEN Hours LIKE '%Sunday%' THEN 7 
+    END dateOrder
+FROM Business AS B INNER JOIN Hours AS H ON B.id = H.business_id
+WHERE is_open = 1 AND dateOrder = 5;
